@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components{
+    .btn{
+        @apply bg-blue-600 rounded-md py-0.5 px-2 text-center text-slate-50 flex items-center justify-center
+    }
+    .btn-disable{
+        @apply border border-slate-200 rounded-md py-0.5 px-2 text-center text-slate-50 flex items-center justify-center
+    }
+}
 :root {
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
     line-height: 1.5;

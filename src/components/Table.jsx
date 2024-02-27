@@ -1,7 +1,7 @@
 
 import TableRow from './TableRow';
 
-const Table = ({coins}) => {
+const Table = ({coins,currency}) => {
 
     return (
         <table>
@@ -17,7 +17,7 @@ const Table = ({coins}) => {
                 </tr>
             </thead>
             <tbody>
-                {coins.map((coin)=><TableRow key={coin.id} coin={coin}/>)}
+                {coins.map((coin) => <TableRow key={coin.id} coin={coin} currency={currency} />)}
             </tbody>
         </table>
     );
