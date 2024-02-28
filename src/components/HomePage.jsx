@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { getCoins } from "../services/CoinsServise";
+import { getCoinsApi } from "../services/CoinsServise";
 import Loader from "../ui/Loader";
 import Table from "./Table";
 import Paginate from "../ui/Paginate";
@@ -19,7 +19,7 @@ const HomePage = () => {
         
         const fetchAPI = async () => {
             try {
-                setCoins(await getCoins({page,currency}))
+                setCoins(await getCoinsApi({page,currency}))
                 setIsLoading(false)
             } catch (error) {
                 toast.error(error?.message)

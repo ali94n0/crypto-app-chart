@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import chartUp from "../assets/chart-up.svg"
 import chartDown from "../assets/chart-down.svg"
+import Modal from '../ui/Modal';
+import CoinChart from './CoinChart';
 
 const styleCurrency = {
     "usd": "$",
@@ -9,6 +11,7 @@ const styleCurrency = {
 }
 
 const TableRow = ({ coin, currency }) => {
+    const[isOpen,setIsOpen]=useState(false)
 
     const{symbol,image,name,current_price,market_cap
 ,price_change_percentage_24h,market_cap_rank
@@ -25,7 +28,10 @@ const TableRow = ({ coin, currency }) => {
             <td>{market_cap.toLocaleString()}&nbsp;{styleCurrency[currency]}</td>
             <td className={`${price_change_percentage_24h > 0 ? "text-green-600" :"text-red-600"}`}>{price_change_percentage_24h.toFixed(2)}&nbsp;%</td>
             <td>
-                <img src={price_change_percentage_24h > 0 ? chartUp : chartDown} />
+                <img onClick={()=>setIsOpen(true)} src={price_change_percentage_24h > 0 ? chartUp : chartDown} />
+                {isOpen && <Modal onClose={() => setIsOpen(false)}>
+                    <CoinChart coin={coin}/>
+                </Modal>}
             </td>
 
         </tr>
