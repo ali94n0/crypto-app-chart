@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import chartUp from "../assets/chart-up.svg"
 import chartDown from "../assets/chart-down.svg"
 import Modal from '../ui/Modal';
 import CoinChart from './CoinChart';
+import toast from 'react-hot-toast';
+import { getCoinChartApi } from '../services/CoinsServise';
 
 const styleCurrency = {
     "usd": "$",
@@ -12,10 +14,23 @@ const styleCurrency = {
 
 const TableRow = ({ coin, currency }) => {
     const[isOpen,setIsOpen]=useState(false)
-
-    const{symbol,image,name,current_price,market_cap
+const [chartData, setChartData] = useState(null)
+const{id,symbol,image,name,current_price,market_cap
 ,price_change_percentage_24h,market_cap_rank
 }=coin
+    
+    const clickHandler =async (id) => {
+        try {
+                const data = await getCoinChartApi({id})
+                setChartData({ ...data, coin })
+                
+            } catch (error) {
+                toast.error(error?.message)
+        }
+        setIsOpen(true)
+    }
+    
+    
     return (
         <tr className='color-slate-50'>
             <td>{market_cap_rank}</td>
@@ -28,9 +43,9 @@ const TableRow = ({ coin, currency }) => {
             <td>{market_cap.toLocaleString()}&nbsp;{styleCurrency[currency]}</td>
             <td className={`${price_change_percentage_24h > 0 ? "text-green-600" :"text-red-600"}`}>{price_change_percentage_24h.toFixed(2)}&nbsp;%</td>
             <td>
-                <img onClick={()=>setIsOpen(true)} src={price_change_percentage_24h > 0 ? chartUp : chartDown} />
+                <img onClick={()=>clickHandler(id)} src={price_change_percentage_24h > 0 ? chartUp : chartDown} />
                 {isOpen && <Modal onClose={() => setIsOpen(false)}>
-                    <CoinChart coin={coin}/>
+                    <CoinChart chartData={chartData}  />
                 </Modal>}
             </td>
 

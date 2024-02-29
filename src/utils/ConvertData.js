@@ -1,7 +1,7 @@
 export const ConvertData = ({ data, type }) => {
 	const convertedData = data[type].map((item) => {
 		return {
-			date: item[0],
+			date: new Date(item[0]).toLocaleDateString(),
 			[type]: item[1],
 		};
 	});
